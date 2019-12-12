@@ -1,4 +1,3 @@
-
 var keyboard = new THREEx.KeyboardState();
 
 
@@ -60,7 +59,7 @@ var paddle = {
 			leftBorder = -rightBorder,
 			actionNeeded = false;
 			
-		if(keyboard.pressed('right')){
+		if(keyboard.pressed('D')){
 			if(rightBorder <= paddle.position.rightX){
 				return;
 			}
@@ -73,7 +72,7 @@ var paddle = {
 			} else {
 				paddle.direction = rightBorder - paddle.position.rightX;
 			}
-		} else if(keyboard.pressed('left')){
+		} else if(keyboard.pressed('A')){
 			if(leftBorder >= paddle.position.leftX){
 				return;
 			}
@@ -95,6 +94,103 @@ var paddle = {
 			paddle.position.rightX += paddle.direction;
 			
 			paddle.item.position.x += paddle.direction;
+		}
+	}
+};
+
+var paddle2 = {
+	objetType : 'paddle2',
+	removeItem : false, // to be used later
+	isDestructable : false, // to be used later
+	inMotion : false, // to indicate paddle movement
+	vertices : [],
+	faces : [],
+	
+	dimensions : {}, // must be computed
+	position : { leftX: 0, rightX: 0, topY: 0, bottomY: 0, farZ: 0, nearZ: 0 }, // must be computed
+	
+	direction : 0, // direction in which the paddle is moving
+	
+	paddle2WidthRatio : 0.1, // paddle width ratio relative to visible area
+	paddle2HeightRatio : 0.1, // paddle height ratio relative to visible area
+	
+	item2 : null, // the actual paddle object
+	
+	init : function(){
+		paddle2.dimensions.width = paddle2.paddleWidthRatio * game.visibleArea.x;
+		paddle2.dimensions.height = paddle2.paddleHeightRatio * game.visibleArea.y;
+		paddle2.dimensions.depth = game.aspectRatio;
+		
+		paddle2.position.rightX = (paddle2.dimensions.width / 2);
+		paddle2.position.leftX = -paddle2.position.rightX;
+		paddle2.position.bottomY = -((game.visibleArea.y - paddle2.dimensions.height) / 2);
+		paddle2.position.topY = paddle2.position.bottomY + (paddle2.dimensions.height / 2);
+		
+		// VERY IMPORTANT - Three.js Faces must have their vertex order counter-clockwise for their fronts to be shown to the camera.
+		// If A,B,C,D are the vertices, one triangle face can have any reverse order of (A,B,C) and the other triangle face can have any reverse order of (B,C,D).
+		// If we have to use normal clockwise vertex ordering for faces like (A,B,C) and (B,C,D), then we can use DoubleSided Mesh Material.
+				
+		var geometry2 = new THREE.BoxGeometry(paddle2.dimensions.width, paddle2.dimensions.height/2, paddle2.dimensions.depth);
+		
+		//var material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false, transparent: false, opacity: 1, side: THREE.DoubleSide });
+		var material2 = new THREE.MeshBasicMaterial({ color: 0xff3f3f });
+		
+		paddle2.item = new THREE.Mesh(geometry2, material2);
+		
+		var paddle2YPosition = -(game.visibleArea.y/2) + paddle2.dimensions.height;
+		paddle2.item.position.setY(paddle2YPosition);
+		
+		game.scene.add(paddle2.item);
+	},
+	
+	
+	update : function(){
+		if(paddle2.item === null){
+			// don't do anything, paddle not yet initialised
+			return;
+		}
+		
+		paddle2.inMotion = false;
+		
+		var rightBorder = (game.visibleArea.x / 2),
+			leftBorder = -rightBorder,
+			actionNeeded = false;
+			
+		if(keyboard.pressed('right')){
+			if(rightBorder <= paddle2.position.rightX){
+				return;
+			}
+			
+			actionNeeded = true;
+			var moveDist2 = 0.1 * paddle2.dimensions.width;
+			
+			if(rightBorder >= (paddle2.position.rightX + moveDist2)){
+				paddle2.direction = moveDist2;
+			} else {
+				paddle2.direction = rightBorder - paddle2.position.rightX;
+			}
+		} else if(keyboard.pressed('left')){
+			if(leftBorder >= paddle2.position.leftX){
+				return;
+			}
+			
+			actionNeeded = true;
+			var moveDist2 = -0.1 * paddle2.dimensions.width;
+			
+			if(leftBorder <= (paddle2.position.leftX + moveDist2)){
+				paddle2.direction = moveDist2;
+			} else {
+				paddle2.direction = leftBorder - paddle2.position.leftX;
+			}
+		}
+		
+		if(actionNeeded){
+			paddle2.inMotion = true;
+			
+			paddle2.position.leftX += paddle2.direction;
+			paddle2.position.rightX += paddle2.direction;
+			
+			paddle2.item.position.x += paddle2.direction;
 		}
 	}
 };
@@ -375,7 +471,7 @@ var brick = function(){
 		tempBB.min.x -= ball.radius;
 		tempBB.min.y -= ball.radius;
 		tempBB.max.x += ball.radius;
-		tempBB.max.y += ball.radius
+		tempBB.max.y += ball.radius;
 		
 		context.item.geometry.boundingBox = tempBB;
 		
@@ -455,6 +551,9 @@ var game = {
 		
 		paddle.init();
 		game.items.push(paddle);
+
+		paddle2.init();
+		game.items.push(paddle2);
 		
 		ball.init();
 		game.items.push(ball);
@@ -529,23 +628,5 @@ var game = {
 	}
 };
 
-
-
 game.init();
 game.update();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
