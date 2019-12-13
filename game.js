@@ -2,7 +2,7 @@ var keyboard = new THREEx.KeyboardState();
 
 
 var paddle = {
-	objetType : 'paddle',
+	objectType : 'paddle',
 	removeItem : false, // to be used later
 	isDestructable : false, // to be used later
 	inMotion : false, // to indicate paddle movement
@@ -99,7 +99,7 @@ var paddle = {
 };
 
 var paddle2 = {
-	objetType : 'paddle2',
+	objectType : 'paddle2',
 	removeItem : false, // to be used later
 	isDestructable : false, // to be used later
 	inMotion : false, // to indicate paddle movement
@@ -111,10 +111,10 @@ var paddle2 = {
 	
 	direction : 0, // direction in which the paddle is moving
 	
-	paddle2WidthRatio : 0.1, // paddle width ratio relative to visible area
-	paddle2HeightRatio : 0.1, // paddle height ratio relative to visible area
+	paddleWidthRatio : 0.1, // paddle width ratio relative to visible area
+	paddleHeightRatio : 0.1, // paddle height ratio relative to visible area
 	
-	item2 : null, // the actual paddle object
+	item : null, // the actual paddle object
 	
 	init : function(){
 		paddle2.dimensions.width = paddle2.paddleWidthRatio * game.visibleArea.x;
@@ -137,8 +137,8 @@ var paddle2 = {
 		
 		paddle2.item = new THREE.Mesh(geometry2, material2);
 		
-		var paddle2YPosition = -(game.visibleArea.y/2) + paddle2.dimensions.height;
-		paddle2.item.position.setY(paddle2YPosition);
+		var paddleYPosition = -(game.visibleArea.y/2) + paddle2.dimensions.height;
+		paddle2.item.position.setY(paddleYPosition);
 		
 		game.scene.add(paddle2.item);
 	},
@@ -156,7 +156,7 @@ var paddle2 = {
 			leftBorder = -rightBorder,
 			actionNeeded = false;
 			
-		if(keyboard.pressed('right')){
+		if(keyboard.pressed('l')){
 			if(rightBorder <= paddle2.position.rightX){
 				return;
 			}
@@ -496,9 +496,18 @@ var brick = function(){
 };
 
 // some random values to start with
-brick.brickWidth = 6;
-brick.brickHeight = 2;
+brick.brickWidth = 8;
+brick.brickHeight = 3;
 
+// var scoreText
+// updateScore()
+
+// function updateScore() {
+// 	scene.remove(scoreText)
+// 	scoreText = new Text(score)
+// 	scoreText.position.set(6, -4.4, 0)
+// 	scene.add(scoreText)
+//   }
 
 var game = {
 	scene : null,
@@ -549,6 +558,7 @@ var game = {
 
 		game.graphicsHost.appendChild(game.renderer.domElement);
 		
+		// scene.add(scoreText);
 		paddle.init();
 		game.items.push(paddle);
 
@@ -603,6 +613,30 @@ var game = {
 			}
 		}
 	},
+
+	// if (brickItem == null){
+		
+	// 	console.log("Score: ");
+	// }
+
+	// // RESET BRICKS
+	// for (var i = bricks.children.length - 1; i >= 0; i--) {
+	// 	bricks.remove(bricks.children[i])
+	//   }
+	//   for (var i = 0; i < ROWS * COLUMNS; i++) {
+	// 	var brick = new Cube()
+	// 	brick.name = i
+	// 	bricks.add(brick)
+	//   }
+	//   bricks.children.map((currElement, index) => {
+	// 	currElement.applyMatrix(playerMat);
+	// 	currElement.position.y -= Math.floor(index / COLUMNS) * 0.8
+	// 	currElement.position.x += index % COLUMNS * 2.5
+	//   })
+	
+	//   score = 0
+	//   console.log('score: ' + score)
+	//   updateScore()
 	
 	addLights : function(){
 		var ambientLight = new THREE.AmbientLight({color: 0x444444});
