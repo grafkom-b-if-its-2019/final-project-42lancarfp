@@ -156,7 +156,7 @@ var paddle2 = {
 			leftBorder = -rightBorder,
 			actionNeeded = false;
 			
-		if(keyboard.pressed('l')){
+		if(keyboard.pressed('right')){
 			if(rightBorder <= paddle2.position.rightX){
 				return;
 			}
