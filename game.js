@@ -195,7 +195,6 @@ var paddle2 = {
 	}
 };
 
-
 var ball = {
 	objectType : 'ball',
 	removeItem : false, // to be used later
@@ -205,7 +204,7 @@ var ball = {
 	
 	radius : 0, // must be computed
 	
-	ballRadiusRatio : 0.1, // ball radius ratio relative to paddle height
+	ballRadiusRatio : 0.15, // ball radius ratio relative to paddle height
 	
 	movementDirection : { x: 0, y: 0 }, // direction of movement of ball
 	maxSpeed : { x: 1, y: 1}, // to govern max speed of the ball
@@ -286,7 +285,7 @@ var ball = {
 		ball.launched = true;
 		
 		ball.movementDirection.x = (Math.random() <= 0.5 ? -1 : 1) * ball.radius;
-		ball.movementDirection.y = 1 * ball.radius;
+		ball.movementDirection.y = 0.5 * ball.radius;
 	},
 	
 	checkCollisions : function(){
@@ -430,8 +429,8 @@ var ball = {
 	
 	
 	computePath : function(){
-		var newBallX = ball.movementDirection.x * 0.9,
-			newBallY = ball.movementDirection.y * 0.9;
+		var newBallX = ball.movementDirection.x * 0.5,
+			newBallY = ball.movementDirection.y * 0.5;
 			
 		// VERY IMPORTANT NOTE: rotating and translating do not go hand in hand.
 		// roatating an object also rotates its axes. Translating an object actually uses it local axes,
@@ -444,6 +443,253 @@ var ball = {
 	}
 };
 
+var ball2 = {
+	objectType : 'ball2',
+	removeItem : false, // to be used later
+	isDestructable : false, // to be used later
+	launched : false, // flag for ball launched from paddle
+	firstCollision : true, // flag to be used for checking collsions with paddle
+	
+	radius : 0, // must be computed
+	
+	ballRadiusRatio : 0.15, // ball radius ratio relative to paddle height
+	
+	movementDirection : { x: 0, y: 0 }, // direction of movement of ball
+	maxSpeed : { x: 1, y: 1}, // to govern max speed of the ball
+	
+	item : null, // the actual ball object
+	
+	
+	init : function(){
+		// about 1/5 of the paddle height
+		ball2.radius = ball2.ballRadiusRatio * paddle2.dimensions.height;
+		
+		// more segments would make a smoother circle
+		var geometry2 = new THREE.CircleGeometry(ball2.radius, 32);
+		geometry2.computeBoundingBox();
+		
+		var material2 = new THREE.MeshPhongMaterial({color: 0xffffff});
+		
+		ball2.item = new THREE.Mesh(geometry2, material2);
+		
+		ball2.reset();
+		
+		game.scene.add(ball2.item);
+	},
+	
+	
+	reset : function(){
+		// reset all flags to default values
+		ball2.launched = false;
+		ball2.firstCollision = true;
+		
+		// set ball movement to 0
+		ball2.movementDirection.x = ball2.movementDirection.y = 0;
+		
+		// set the ball on top of the paddle
+		var paddleBB = new THREE.Box3().setFromObject(paddle2.item),
+			newBallX = (paddleBB.min.x + paddleBB.max.x) / 2,
+			newBallY = paddleBB.max.y + (ball2.radius * 1.1);
+		
+		ball2.item.position.set(newBallX, newBallY, 0);
+	},
+	
+	
+	update : function(){
+		if(ball2.item === null){
+			// don't do anything, ball not yet initialised
+			return;
+		}
+		
+		if(!ball2.launched){
+			ball2.moveWithPaddle();
+			ball2.launchBall();
+			return;
+		}
+		
+		ball2.checkCollisions();
+		
+		ball2.computePath();
+	},
+	
+	
+	moveWithPaddle : function(){
+		if(!paddle2.inMotion){
+			return;
+		}
+		
+		var paddleBB = new THREE.Box3().setFromObject(paddle2.item),
+			newBallX = (paddleBB.max.x + paddleBB.min.x) / 2;
+		
+		ball2.item.position.setX(newBallX);
+	},
+	
+	
+	launchBall : function(){
+		if(!keyboard.pressed('space')){
+			return;
+		}
+		
+		ball2.launched = true;
+		
+		ball2.movementDirection.x = (Math.random() <= 0.5 ? -1 : 1) * ball2.radius;
+		ball2.movementDirection.y = 0.5 * ball2.radius;
+	},
+	
+	checkCollisions : function(){
+		var rightBorder = (game.visibleArea.x / 2) - ball2.radius,
+			leftBorder = -rightBorder,
+			topBorder = (game.visibleArea.y / 2) - ball2.radius,
+			bottomBorder = -topBorder,
+			currentBallPosition = ball2.item.position;
+		
+		// check collision with horizontal borders
+		if((currentBallPosition.x <= leftBorder) || (currentBallPosition.x >= rightBorder)){
+			ball2.movementDirection.x *= -1;
+			ball2.firstCollision = false;
+		}
+		
+		// check collision with vertical borders
+		if(currentBallPosition.y >= topBorder){
+			ball2.movementDirection.y *= -1;
+			ball2.firstCollision = false;
+		} else if(currentBallPosition.y <= bottomBorder){
+			ball2.reset();
+			return;
+		}
+		
+		var ballBB = new THREE.Box3().setFromObject(ball2.item);
+		
+		for(var index in game.items){
+			var gameObject = game.items[index];
+			
+			if(gameObject.objectType !== 'brick')
+				continue;
+				
+			if(gameObject.startRemoval)
+				continue;
+			
+			var itemBB = gameObject.item.geometry2.boundingBox;
+			
+			if(itemBB.containsPoint(ballBB.min) || itemBB.containsPoint(ballBB.max)){
+				ball2.firstCollision = true;
+				
+				gameObject.startRemoval = true;
+				
+				if(ball2.item.position.y > itemBB.max.y) {
+					if(ball2.item.position.x < itemBB.min.x) {
+						// ball center at top left of brick
+						if(ball2.movementDirection.x > 0) {
+							ball2.movementDirection.x *= -1;
+						} else {
+							ball2.movementDirection.y *= -1;
+						}
+					} else if(ball2.item.position.x > itemBB.max.x) {
+						// ball center at top right of brick
+						if(ball2.movementDirection.x < 0) {
+							ball2.movementDirection.x *= -1;
+						} else {
+							ball2.movementDirection.y *= -1;
+						}
+					} else {
+						// ball center at top center of brick
+						ball2.movementDirection.y *= -1;
+					}
+				} else if(ball2.item.position.y < itemBB.min.y) {
+					if(ball2.item.position.x < itemBB.min.x) {
+						// ball center at bottom left of brick
+						if(ball2.movementDirection.x > 0) {
+							ball2.movementDirection.x *= -1;
+						} else {
+							ball2.movementDirection.y *= -1;
+						}
+					} else if(ball2.item.position.x > itemBB.max.x) {
+						// ball center at bottom right of brick
+						if(ball2.movementDirection.x < 0) {
+							ball2.movementDirection.x *= -1;
+						} else {
+							ball2.movementDirection.y *= -1;
+						}
+					} else {
+						// ball center at bottom center of brick
+						ball2.movementDirection.y *= -1;
+					}
+				} else {
+					if(ball2.item.position.x < itemBB.min.x) {
+						// ball center at middle left of brick
+						if(ball2.movementDirection.x > 0) {
+							ball2.movementDirection.x *= -1;
+						} else {
+							ball2.movementDirection.y *= -1;
+						}
+					} else if(ball2.item.position.x > itemBB.max.x) {
+						// ball center at middle right of brick
+						if(ball2.movementDirection.x < 0) {
+							ball2.movementDirection.x *= -1;
+						} else {
+							ball2.movementDirection.y *= -1;
+						}
+					} else {
+						// ball center at middle of brick
+						// ball shouldn't come here. If it comes, it is a bug.
+						// reflect it vertically, just in case
+						ball2.movementDirection.y *= -1;
+					}
+				}
+								
+				return;
+			}
+		}
+		
+		// check collision with paddle
+		var	paddleBB = new THREE.Box3().setFromObject(paddle2.item);
+		
+		// expanding paddle's bounding box, to prevent the ball from going inside the paddle
+		paddleBB.min.x -= ball2.radius;
+		paddleBB.max.x += ball2.radius;
+		paddleBB.max.y += ball2.radius;
+		
+		if(paddleBB.containsPoint(ballBB.min) || paddleBB.containsPoint(ballBB.max)){
+			// because items updates are in a loop, checking is very fast.
+			// as soon the ball is launched from paddle in the beginning, in the first frame, ball is still
+			// on/inside the paddle and is picked up as a collision in this implementation.
+			// hence this first collision check with the paddle is required
+			if(ball2.firstCollision){
+				ball2.firstCollision = false;
+				return;
+			}
+			
+			var ballDirectionX = ball2.movementDirection.x,
+				ballPositionX = ball2.item.position.x,
+				paddleMidPoint = (paddleBB.min.x + paddleBB.max.x) / 2;
+				
+			var newBallMovementX = Math.abs((Math.abs(paddleMidPoint) - Math.abs(ballPositionX))) / (paddle2.dimensions.width / 2);
+			
+			if(ballPositionX <= paddleMidPoint){
+				ball2.movementDirection.x = -1 * newBallMovementX * ball2.radius;
+			} else {
+				ball2.movementDirection.x = 1 * newBallMovementX * ball2.radius;
+			}
+			
+			ball2.movementDirection.y = 1 * ball2.radius;
+		}
+	},
+	
+	
+	computePath : function(){
+		var newBallX = ball2.movementDirection.x * 0.5,
+			newBallY = ball2.movementDirection.y * 0.5;
+			
+		// VERY IMPORTANT NOTE: rotating and translating do not go hand in hand.
+		// roatating an object also rotates its axes. Translating an object actually uses it local axes,
+		// so for example, rotating an object on its x and y axes and then translating it on its x-axis
+		// does NOT result in the object's movement along the WORLD's x-axis. Change the object's position
+		// instead of translation for this purpose.
+		
+		ball2.item.position.x += newBallX;
+		ball2.item.position.y += newBallY;
+	}
+};
 
 var brick = function(){
 	var context = this;
@@ -498,16 +744,6 @@ var brick = function(){
 // some random values to start with
 brick.brickWidth = 8;
 brick.brickHeight = 3;
-
-// var scoreText
-// updateScore()
-
-// function updateScore() {
-// 	scene.remove(scoreText)
-// 	scoreText = new Text(score)
-// 	scoreText.position.set(6, -4.4, 0)
-// 	scene.add(scoreText)
-//   }
 
 var game = {
 	scene : null,
@@ -566,6 +802,9 @@ var game = {
 		game.items.push(paddle2);
 		
 		ball.init();
+		game.items.push(ball);
+
+		ball2.init();
 		game.items.push(ball);
 		
 		game.addLights();
