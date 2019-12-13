@@ -278,7 +278,7 @@ var ball = {
 	
 	
 	launchBall : function(){
-		if(!keyboard.pressed('space')){
+		if(!keyboard.pressed('P')){
 			return;
 		}
 		
@@ -569,7 +569,7 @@ var ball2 = {
 			if(gameObject.startRemoval)
 				continue;
 			
-			var itemBB = gameObject.item.geometry2.boundingBox;
+			var itemBB = gameObject.item.geometry.boundingBox;
 			
 			if(itemBB.containsPoint(ballBB.min) || itemBB.containsPoint(ballBB.max)){
 				ball2.firstCollision = true;
@@ -805,7 +805,7 @@ var game = {
 		game.items.push(ball);
 
 		ball2.init();
-		game.items.push(ball);
+		game.items.push(ball2);
 		
 		game.addLights();
 		
