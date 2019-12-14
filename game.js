@@ -1,5 +1,7 @@
 var keyboard = new THREEx.KeyboardState();
 
+var p1score = 0;
+var p2score = 0;
 
 var paddle = {
 	objectType : 'paddle',
@@ -326,7 +328,12 @@ var ball = {
 			if(itemBB.containsPoint(ballBB.min) || itemBB.containsPoint(ballBB.max)){
 				ball.firstCollision = true;
 				
+				//gameObject.startRemoval = false;
 				gameObject.startRemoval = true;
+				p2score++;
+				document.getElementById("scores").innerHTML = p1score + "-" + p2score;
+				console.log(p2score); 
+
 				
 				if(ball.item.position.y > itemBB.max.y) {
 					if(ball.item.position.x < itemBB.min.x) {
@@ -575,6 +582,10 @@ var ball2 = {
 				ball2.firstCollision = true;
 				
 				gameObject.startRemoval = true;
+
+				p1score++;
+				document.getElementById("scores").innerHTML = p1score + "-" + p2score;
+				console.log(p2score);
 				
 				if(ball2.item.position.y > itemBB.max.y) {
 					if(ball2.item.position.x < itemBB.min.x) {
@@ -903,3 +914,4 @@ var game = {
 
 game.init();
 game.update();
+console.log(p1score);
