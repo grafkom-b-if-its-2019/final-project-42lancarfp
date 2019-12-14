@@ -784,8 +784,6 @@ var game = {
 		game.camera = new THREE.PerspectiveCamera(45, game.aspectRatio, 0.1, 10000);
 		game.camera.position.set(0, 0, game.cameraZDistance);
 
-
-
 		// convert vertical fov to radians
 		var vFOV = game.camera.fov * Math.PI / 180;
 		// visible height
@@ -802,7 +800,6 @@ var game = {
 		
 		// this keeps the item.position values updated with the transforms applied later during item movements
 		game.scene.updateMatrixWorld(true);
-
 		game.renderer = new THREE.WebGLRenderer({antialias: true});
 		game.renderer.shadowMapEnabled = true;
 		game.renderer.setSize(game.ghWidth, game.ghHeight);
@@ -827,7 +824,6 @@ var game = {
 		game.generateBricks();
 	},
 	
-	
 	update : function(){
 		for(var index in game.items){
 			var gameItem = game.items[index];
@@ -841,9 +837,20 @@ var game = {
 		//Rotating Camera
 		game.camera.lookAt(new THREE.Vector3(0.0,0.0,0.0));
 		game.delta +=0.01;
+
+		// bidang muter ke kiri
+		if(keyboard.pressed('l')){
+			game.camera.position.x = Math.sin(game.delta) * 100;
+		}
+
+		// bidang muter ke kanan
+		if(keyboard.pressed('r')){
+			game.camera.position.y = Math.cos(game.delta) * 100;
+		}
+		
 		// game.camera.position.x = Math.sin(game.delta) * 100;
 		// game.camera.position.y = Math.cos(game.delta) * 100;
-		game.camera.rotation.z = game.delta;
+		// game.camera.rotation.z = game.delta;
 		
 		game.renderer.render(game.scene, game.camera);
 		requestAnimationFrame(game.update);
@@ -873,30 +880,6 @@ var game = {
 			}
 		}
 	},
-
-	// if (brickItem == null){
-		
-	// 	console.log("Score: ");
-	// }
-
-	// // RESET BRICKS
-	// for (var i = bricks.children.length - 1; i >= 0; i--) {
-	// 	bricks.remove(bricks.children[i])
-	//   }
-	//   for (var i = 0; i < ROWS * COLUMNS; i++) {
-	// 	var brick = new Cube()
-	// 	brick.name = i
-	// 	bricks.add(brick)
-	//   }
-	//   bricks.children.map((currElement, index) => {
-	// 	currElement.applyMatrix(playerMat);
-	// 	currElement.position.y -= Math.floor(index / COLUMNS) * 0.8
-	// 	currElement.position.x += index % COLUMNS * 2.5
-	//   })
-	
-	//   score = 0
-	//   console.log('score: ' + score)
-	//   updateScore()
 	
 	addLights : function(){
 		var ambientLight = new THREE.AmbientLight({color: 0x444444});
