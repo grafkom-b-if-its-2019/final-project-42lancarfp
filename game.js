@@ -772,6 +772,8 @@ var game = {
 	lights : [],
 	
 	brickLayerInfo : {},
+
+	delta : 0,
 	
 	init : function(){
 		game.graphicsHost = document.getElementById('host'),
@@ -781,6 +783,8 @@ var game = {
 	
 		game.camera = new THREE.PerspectiveCamera(45, game.aspectRatio, 0.1, 10000);
 		game.camera.position.set(0, 0, game.cameraZDistance);
+
+
 
 		// convert vertical fov to radians
 		var vFOV = game.camera.fov * Math.PI / 180;
@@ -834,6 +838,12 @@ var game = {
 				game.items.splice(index--, 1);
 			}
 		}
+		//Rotating Camera
+		game.camera.lookAt(new THREE.Vector3(0.0,0.0,0.0));
+		game.delta +=0.01;
+		// game.camera.position.x = Math.sin(game.delta) * 100;
+		// game.camera.position.y = Math.cos(game.delta) * 100;
+		game.camera.rotation.z = game.delta;
 		
 		game.renderer.render(game.scene, game.camera);
 		requestAnimationFrame(game.update);
