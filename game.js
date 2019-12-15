@@ -862,16 +862,18 @@ var game = {
 		}
 		//Rotating Camera
 		game.camera.lookAt(new THREE.Vector3(0.0,0.0,0.0));
-		game.delta +=0.01;
+		
 
 		// bidang muter ke kiri
 		if(keyboard.pressed('l')){
+			game.delta +=0.01;
 			game.camera.position.x = Math.sin(game.delta) * 100;
 			game.camera.position.z = Math.cos(game.delta) * 100;
 		}
 
 		// bidang muter ke kanan
 		if(keyboard.pressed('r')){
+			game.delta -=0.01;
 			game.camera.position.x = -1 * Math.sin(game.delta) * 100;
 			game.camera.position.z = -1 * Math.cos(game.delta) * 100;
 		}
