@@ -3,6 +3,8 @@ var keyboard = new THREEx.KeyboardState();
 var p1score = 0;
 var p2score = 0;
 
+//Try Adding Score
+
 var paddle = {
 	objectType : 'paddle',
 	removeItem : false, // to be used later
@@ -346,7 +348,7 @@ var ball = {
 				//gameObject.startRemoval = false;
 				gameObject.startRemoval = true;
 				p2score++;
-				document.getElementById("scores").innerHTML = p2score + "-" + p1score;
+				document.getElementById("score1").innerHTML = p2score;
 				console.log(p2score); 
 
 				
@@ -605,7 +607,7 @@ var ball2 = {
 				gameObject.startRemoval = true;
 
 				p1score++;
-				document.getElementById("scores").innerHTML = p2score + "-" + p1score;
+				document.getElementById("score2").innerHTML = p1score;
 				console.log(p2score);
 				
 				if(ball2.item.position.y > itemBB.max.y) {
@@ -874,8 +876,8 @@ var game = {
 		// bidang muter ke kanan
 		if(keyboard.pressed('r')){
 			game.delta -=0.01;
-			game.camera.position.x = -1 * Math.sin(game.delta) * 100;
-			game.camera.position.z = -1 * Math.cos(game.delta) * 100;
+			game.camera.position.x = Math.sin(game.delta) * 100;
+			game.camera.position.z = Math.cos(game.delta) * 100;
 		}
 		
 		// game.camera.position.x = Math.sin(game.delta) * 100;
