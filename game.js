@@ -349,7 +349,8 @@ var ball = {
 				//gameObject.startRemoval = false;
 				gameObject.startRemoval = true;
 				p2score++;
-				document.getElementById("score1").innerHTML = p2score;
+				var gabung="P1-"+p2score
+				document.getElementById("score1").innerHTML = gabung;
 
 				
 				if(ball.item.position.y > itemBB.max.y) {
@@ -607,7 +608,8 @@ var ball2 = {
 				gameObject.startRemoval = true;
 
 				p1score++;
-				document.getElementById("score2").innerHTML = p1score;
+				var gabungjuga="P2-"+p1score
+				document.getElementById("score2").innerHTML = gabungjuga;
 
 				
 				if(ball2.item.position.y > itemBB.max.y) {
@@ -857,10 +859,13 @@ var game = {
 			
 			if(game.items.length==4){
 				if(p1score>p2score){
+					document.getElementById("id01").innerHTML = "Player 2 Menang";
+				}
+				else if(p2score>p1score){
 					document.getElementById("id01").innerHTML = "Player 1 Menang";
 				}
 				else{
-					document.getElementById("id01").innerHTML = "Player 2 Menang";
+					document.getElementById("id01").innerHTML = "Seri";
 				}
 				$('#gameover').modal('show');
 			}
