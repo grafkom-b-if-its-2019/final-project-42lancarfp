@@ -891,6 +891,20 @@ var game = {
 			game.camera.position.x = Math.sin(game.delta) * 100;
 			game.camera.position.z = Math.cos(game.delta) * 100;
 		}
+
+		// zoom in
+		if(keyboard.pressed('8')){
+			game.camera.position.z -= 1;
+		}
+
+		//zoom out
+		if(keyboard.pressed('9')){
+			game.camera.position.z += 1;
+		}
+		//zoom reset
+		if(keyboard.pressed('0')){
+			game.camera.position.z = 100;
+		}
 		
 		// game.camera.position.x = Math.sin(game.delta) * 100;
 		// game.camera.position.y = Math.cos(game.delta) * 100;
