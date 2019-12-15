@@ -806,7 +806,7 @@ var game = {
 		game.aspectRatio = game.ghWidth / game.ghHeight;
 	
 		game.camera = new THREE.PerspectiveCamera(45, game.aspectRatio, 0.1, 10000);
-		game.camera.position.set(0, 0,  -1 *game.cameraZDistance);
+		game.camera.position.set(0, 0, game.cameraZDistance);
 
 		// convert vertical fov to radians
 		var vFOV = game.camera.fov * Math.PI / 180;
