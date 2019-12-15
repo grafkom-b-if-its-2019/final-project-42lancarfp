@@ -2,6 +2,7 @@ var keyboard = new THREEx.KeyboardState();
 
 var p1score = 0;
 var p2score = 0;
+var jumlah;
 
 //Try Adding Score
 
@@ -349,7 +350,6 @@ var ball = {
 				gameObject.startRemoval = true;
 				p2score++;
 				document.getElementById("score1").innerHTML = p2score;
-				console.log(p2score); 
 
 				
 				if(ball.item.position.y > itemBB.max.y) {
@@ -608,7 +608,7 @@ var ball2 = {
 
 				p1score++;
 				document.getElementById("score2").innerHTML = p1score;
-				console.log(p2score);
+
 				
 				if(ball2.item.position.y > itemBB.max.y) {
 					if(ball2.item.position.x < itemBB.min.x) {
@@ -833,7 +833,6 @@ var game = {
 		//
 		//Maybe add Score here :)
 		//
-		
 		// scene.add(scoreText);
 		paddle.init();
 		game.items.push(paddle);
@@ -856,7 +855,21 @@ var game = {
 		for(var index in game.items){
 			var gameItem = game.items[index];
 			
-			gameItem.update();
+			if(game.items.length==4){
+				if(p1score>p2score){
+					document.getElementById("id01").innerHTML = "Player 1 Menang";
+				}
+				else{
+					document.getElementById("id01").innerHTML = "Player 2 Menang";
+				}
+				$('#gameover').modal('show');
+			}
+			else{
+				gameItem.update();
+			}
+			
+
+			
 			
 			if(gameItem.removeItem){
 				game.items.splice(index--, 1);
@@ -864,7 +877,6 @@ var game = {
 		}
 		//Rotating Camera
 		game.camera.lookAt(new THREE.Vector3(0.0,0.0,0.0));
-		
 
 		// bidang muter ke kiri
 		if(keyboard.pressed('l')){
@@ -911,6 +923,7 @@ var game = {
 				game.items.push(brickItem);
 			}
 		}
+		
 	},
 	
 	addLights : function(){
@@ -939,4 +952,3 @@ var game = {
 
 game.init();
 game.update();
-console.log(p1score);
