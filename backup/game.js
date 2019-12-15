@@ -230,10 +230,11 @@ var ball = {
 		// ball.item = new THREE.Mesh(geometry, material);
 
 		//New
-		// var geometry = new THREE.BoxGeometry( ball.radius, ball.radius,ball.radius, );
-		// var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 		var geometry = new THREE.DodecahedronGeometry(ball.radius,1);
 		var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+	
+		// var geometry = new THREE.BoxGeometry( ball.radius, ball.radius,ball.radius, );
+		// var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 		geometry.computeBoundingBox();
 		
 		ball.item = new THREE.Mesh( geometry, material );
@@ -339,6 +340,7 @@ var ball = {
 			
 			var itemBB = gameObject.item.geometry.boundingBox;
 			
+			//if(itemBB.containsPoint(ballBB.min) || itemBB.containsPoint(ballBB.max)){
 			var collision_ball_brick = itemBB.isIntersectionBox(ballBB);
 			if(collision_ball_brick){
 				ball.firstCollision = true;
@@ -423,6 +425,7 @@ var ball = {
 		paddleBB.max.x += ball.radius;
 		paddleBB.max.y += ball.radius;
 		
+		//if(paddleBB.containsPoint(ballBB.min) || paddleBB.containsPoint(ballBB.max)){
 		var collision_ball_paddle = paddleBB.isIntersectionBox(ballBB);
 		if(collision_ball_paddle){
 			// because items updates are in a loop, checking is very fast.
@@ -488,14 +491,10 @@ var ball2 = {
 		ball2.radius = ball2.ballRadiusRatio * paddle2.dimensions.height;
 		
 		// more segments would make a smoother circle
-		// var geometry2 = new THREE.CircleGeometry(ball2.radius, 32);
-		// geometry2.computeBoundingBox();
-		// var material2 = new THREE.MeshPhongMaterial({color: 0xffffff});
-
-		var geometry2 = new THREE.DodecahedronGeometry(ball.radius,1);
-		var material2 = new THREE.MeshBasicMaterial( {color: 0x0fffff} );
+		var geometry2 = new THREE.CircleGeometry(ball2.radius, 32);
 		geometry2.computeBoundingBox();
 		
+		var material2 = new THREE.MeshPhongMaterial({color: 0xffffff});
 		
 		ball2.item = new THREE.Mesh(geometry2, material2);
 		
@@ -598,8 +597,7 @@ var ball2 = {
 			
 			var itemBB = gameObject.item.geometry.boundingBox;
 			
-			var collision_ball_brick = itemBB.isIntersectionBox(ballBB);
-			if(collision_ball_brick){
+			if(itemBB.containsPoint(ballBB.min) || itemBB.containsPoint(ballBB.max)){
 				ball2.firstCollision = true;
 				
 				gameObject.startRemoval = true;
@@ -681,8 +679,7 @@ var ball2 = {
 		paddleBB.max.x += ball2.radius;
 		paddleBB.max.y += ball2.radius;
 		
-		var collision_ball_paddle = paddleBB.isIntersectionBox(ballBB);
-		if(collision_ball_paddle){
+		if(paddleBB.containsPoint(ballBB.min) || paddleBB.containsPoint(ballBB.max)){
 			// because items updates are in a loop, checking is very fast.
 			// as soon the ball is launched from paddle in the beginning, in the first frame, ball is still
 			// on/inside the paddle and is picked up as a collision in this implementation.
