@@ -346,7 +346,7 @@ var ball = {
 				//gameObject.startRemoval = false;
 				gameObject.startRemoval = true;
 				p2score++;
-				document.getElementById("scores").innerHTML = p1score + "-" + p2score;
+				document.getElementById("scores").innerHTML = p2score + "-" + p1score;
 				console.log(p2score); 
 
 				
@@ -605,7 +605,7 @@ var ball2 = {
 				gameObject.startRemoval = true;
 
 				p1score++;
-				document.getElementById("scores").innerHTML = p1score + "-" + p2score;
+				document.getElementById("scores").innerHTML = p2score + "-" + p1score;
 				console.log(p2score);
 				
 				if(ball2.item.position.y > itemBB.max.y) {
@@ -867,11 +867,13 @@ var game = {
 		// bidang muter ke kiri
 		if(keyboard.pressed('l')){
 			game.camera.position.x = Math.sin(game.delta) * 100;
+			game.camera.position.z = Math.cos(game.delta) * 100;
 		}
 
 		// bidang muter ke kanan
 		if(keyboard.pressed('r')){
-			game.camera.position.y = Math.cos(game.delta) * 100;
+			game.camera.position.x = -1 * Math.sin(game.delta) * 100;
+			game.camera.position.z = -1 * Math.cos(game.delta) * 100;
 		}
 		
 		// game.camera.position.x = Math.sin(game.delta) * 100;
