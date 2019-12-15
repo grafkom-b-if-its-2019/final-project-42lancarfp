@@ -19,7 +19,7 @@ var paddle = {
 	direction : 0, // direction in which the paddle is moving
 	
 	paddleWidthRatio : 0.1, // paddle width ratio relative to visible area
-	paddleHeightRatio : 0.1, // paddle height ratio relative to visible area
+	paddleHeightRatio : 0.05, // paddle height ratio relative to visible area
 	
 	item : null, // the actual paddle object
 	
@@ -116,7 +116,7 @@ var paddle2 = {
 	direction : 0, // direction in which the paddle is moving
 	
 	paddleWidthRatio : 0.1, // paddle width ratio relative to visible area
-	paddleHeightRatio : 0.1, // paddle height ratio relative to visible area
+	paddleHeightRatio : 0.05, // paddle height ratio relative to visible area
 	
 	item : null, // the actual paddle object
 	
@@ -218,7 +218,7 @@ var ball = {
 	
 	init : function(){
 		// about 1/5 of the paddle height
-		ball.radius = ball.ballRadiusRatio * paddle.dimensions.height;
+		ball.radius = ball.ballRadiusRatio * paddle.dimensions.height * 2;
 		
 		//Xperiment Block 3D Ball
 
@@ -487,7 +487,7 @@ var ball2 = {
 	
 	init : function(){
 		// about 1/5 of the paddle height
-		ball2.radius = ball2.ballRadiusRatio * paddle2.dimensions.height;
+		ball2.radius = ball2.ballRadiusRatio * paddle2.dimensions.height * 2;
 		
 		// more segments would make a smoother circle
 		// var geometry2 = new THREE.CircleGeometry(ball2.radius, 32);
