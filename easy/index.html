@@ -1,0 +1,98 @@
+<html lang="en">
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	</head>
+	
+	<body style="background-color: black;">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+						<div id="score1" class="text-white">P1-0</div>
+				</div>
+
+				<div class="col-3">
+					<p class=" btn btn-dark btn-sm"data-toggle="modal" data-target="#exampleModalScrollable" type="button"><b>Cara Bermain</b></p>	
+				</div>
+
+				<div class="col-7">
+						<img src="logo block shooter.png" alt="logo" class="center">
+				</div>
+				
+				<div class="col">
+						<div class="text-right">
+							<p id="score2" class="text-white" >P2-0</p>
+						</div>
+				</div>
+			</div>
+			<div id="host"></div>	
+		</div>
+
+		<!-- MODAL -->
+		<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable" role="document">
+			  <div class="modal-content bg-dark">
+				<div class="modal-header bg-dark">
+				  <h5 class="modal-title text-white" id="exampleModalScrollableTitle">Cara Bermain</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<div class="modal-body bg-dark m-3">
+					<div class="text-white mb-3">
+							<h5 class="text-white mb-3 col-12"> Player 1 </h5>
+							<img src="player1.JPG" alt="player1" class="img-thumbnail w-25 m-3">
+							<div>
+									<small>Pencet tombol "panah kiri" untuk bergerak ke arah kiri</small><br>
+									<small>Pencet tombol "panah kanan" untuk bergerak ke arah kanan</small><br>
+									<small>tombol "space" untuk mulai menggerakkan bola</small>
+							</div>		
+					</div>
+
+					<div class="text-white  mb-3">
+							<h5 class="text-white mb-3 col-12"> Player 2 </h5>
+							<img src="player2.JPG" alt="player2" class="img-thumbnail w-25 m-3">
+							<div>
+									<small>Pencet tombol "A" untuk bergerak ke arah kiri</small><br>
+									<small>Pencet tombol "D" untuk bergerak ke arah kanan</small><br>
+									<small>Pencet tombol "P" untuk mulai menggerakkan bola</small>
+							</div>	
+					</div>
+
+					<div class="text-white">
+							<h5 class = "text-white mb-3 col-12">Lain - Lain</h5>
+						<div>
+								<small>"L" = rotasi bidang ke kiri</small><br>
+								<small>"R" = rotasi bidang ke kanan</small><br>
+								<small>"8" = zoom out</small><br>
+								<small>"9" = zoom in</small><br>
+								<small>"0" = reset zoom</small>
+						</div>
+					</div>	
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+		<!-- END MODAL -->
+		<div class="modal fade" id="gameover" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog modal-dialog-scrollable" role="document">
+			  	<div class="modal-content bg-dark">
+					<h5 class="modal-title text-white" id="id01">haha</h5>
+					<button onClick="window.location.reload();">Main Lagi</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="three.min.js"></script>
+		<script type="text/javascript" src="threex.keyboardstate.js"></script>
+		<script type="text/javascript" src="game.js"></script>
+
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	</body>
+</html>
