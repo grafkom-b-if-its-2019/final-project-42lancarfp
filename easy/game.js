@@ -558,7 +558,7 @@ var ball2 = {
 	
 	
 	launchBall : function(){
-		if(!keyboard.pressed('space')){
+		if(!keyboard.pressed('Q')){
 			return;
 		}
 		

@@ -1,5 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<title>Block Shooter</title>
 
-<a href="./hard/index.html"> Hard</a>
-<a href="./easy/index.html"> Easy </a
+	<style>
+	.bg {
+  /* The image used */
+  background-image: url("main_menu.png");
 
-h
+  /* Full height */
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  
+}
+	</style>
+</head>
+<body style="background-color: black;">
+	
+	<div class="container" >
+		<!-- <p class="d-flex justify-content-center text-white">Find the start button</p> -->
+		<p class="d-flex justify-content-center text-white"><img src="logo block shooter.png"></p>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="d-flex justify-content-center">
+			<button type="button" class="btn btn-outline-dark"  data-toggle="modal" data-target="#exampleModalCenter">
+				Start Game
+			  </button>
+			  
+			  <!-- Modal -->
+			  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title" id="exampleModalCenterTitle">Pilih Level</h5>
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+					<div class="modal-body row">
+						<div class="col-6">
+							<span class="align-middle"><a class="btn btn-primary" href="./hard/index.html" role="button">hard</a></span>
+							
+						</div>
+						<div class="col-6">
+							<span class="align-middle"><a class="btn btn-primary" href="./easy/index.html" role="button">easy</a></span>
+							
+						</div>
+						
+					
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+					</div>
+				  </div>
+				</div>
+			  </div>
+		</div>
+		<hr>
+		<div class="d-flex justify-content-center">
+			<!-- Button trigger modal -->
+		<button type="button" class="btn btn-outline-dark"data-toggle="modal" data-target="#exampleModalScrollable">Help</button>
+
+		<!-- MODAL -->
+		<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable" role="document">
+			  <div class="modal-content bg-dark">
+				<div class="modal-header bg-dark">
+				  <h5 class="modal-title text-white" id="exampleModalScrollableTitle">Cara Bermain</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<div class="modal-body bg-dark m-3">
+					<div class="text-white mb-3">
+							<h5 class="text-white mb-3 col-12"> Player 1 </h5>
+							<img src="player1.JPG" alt="player1" class="img-thumbnail w-25 m-3">
+							<div>
+									<small>Pencet tombol "panah kiri" untuk bergerak ke arah kiri</small><br>
+									<small>Pencet tombol "panah kanan" untuk bergerak ke arah kanan</small><br>
+									<small>tombol "space" untuk mulai menggerakkan bola</small>
+							</div>		
+					</div>
+
+					<div class="text-white  mb-3">
+							<h5 class="text-white mb-3 col-12"> Player 2 </h5>
+							<img src="player2.JPG" alt="player2" class="img-thumbnail w-25 m-3">
+							<div>
+									<small>Pencet tombol "A" untuk bergerak ke arah kiri</small><br>
+									<small>Pencet tombol "D" untuk bergerak ke arah kanan</small><br>
+									<small>Pencet tombol "P" untuk mulai menggerakkan bola</small>
+							</div>	
+					</div>
+
+					<div class="text-white">
+							<h5 class = "text-white mb-3 col-12">Lain - Lain</h5>
+						<div>
+								<small>"L" = rotasi bidang ke kiri</small><br>
+								<small>"R" = rotasi bidang ke kanan</small><br>
+								<small>"8" = zoom out</small><br>
+								<small>"9" = zoom in</small><br>
+								<small>"0" = reset zoom</small>
+						</div>
+					</div>	
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
+		</div>
+		
+
+
+	</div>
+	
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
