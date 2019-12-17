@@ -297,7 +297,7 @@ var ball = {
 	
 	
 	launchBall : function(){
-		if(!keyboard.pressed('P')){
+		if(!keyboard.pressed('Q')){
 			return;
 		}
 		
@@ -558,7 +558,7 @@ var ball2 = {
 	
 	
 	launchBall : function(){
-		if(!keyboard.pressed('Q')){
+		if(!keyboard.pressed('P')){
 			return;
 		}
 		
